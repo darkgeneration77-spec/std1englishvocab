@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UASA Year 1 English Vocabulary - Unit 1 Treasure Hunt</title>
+<style>
+:root{
+  --ink:#1e293b;
+  --paper:#fffaf0;
+  --line:#d7c7a5;
+  --gold:#c98b00;
+  --dark:#14213d;
+  --sea:#dff5ff;
+  --ok:#157347;
+  --bad:#b42318;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,.7), transparent 25%),
+    linear-gradient(#dff5ff 0 34%,#f1dfac 34% 100%);
+  color:var(--ink);
+  min-height:100vh;
+}
+.wrap{max-width:1050px;margin:auto;padding:18px}
+header{
+  display:flex;justify-content:space-between;gap:15px;align-items:center;
+  background:rgba(255,255,255,.88);border:2px solid var(--line);
+  border-radius:20px;padding:15px 18px;box-shadow:0 10px 28px rgba(0,0,0,.09)
+}
+.brand h1{font-size:23px;margin:0 0 5px}
+.brand p{margin:0;color:#64748b;font-size:13px}
+.stats{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.stat{background:#fff;border:1px solid #ddd;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}
+.map{
+  position:relative;margin-top:18px;min-height:520px;
+  background:
+    radial-gradient(circle at 15% 15%,#cde99b 0 9%,transparent 9.5%),
+    radial-gradient(circle at 78% 20%,#cde99b 0 12%,transparent 12.5%),
+    radial-gradient(circle at 35% 75%,#cde99b 0 14%,transparent 14.5%),
+    linear-gradient(135deg,#f7e8b5,#e8d18e);
+  border:4px solid #8b6b3d;border-radius:28px;overflow:hidden;
+  box-shadow:inset 0 0 0 5px rgba(255,255,255,.25),0 18px 38px rgba(0,0,0,.13)
+}
+.route{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,#856336 2px,transparent 3px);
+  background-size:36px 36px;opacity:.18
+}
+.title-card{
+  position:absolute;left:50%;top:22px;transform:translateX(-50%);
+  background:#fff8df;border:2px solid #8b6b3d;border-radius:14px;
+  padding:10px 16px;text-align:center;min-width:250px
+}
+.title-card b{display:block;font-size:18px}
+.island{
+  position:absolute;width:128px;height:128px;border-radius:50%;
+  background:#85bd68;border:5px solid #f5dfa1;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  box-shadow:0 8px 18px rgba(0,0,0,.14);
+  padding:10px;font-weight:900;cursor:pointer;transition:.18s;
+}
+.island:hover{transform:scale(1.04)}
+.island.locked{filter:grayscale(1);opacity:.58;cursor:not-allowed}
+.island.done{outline:5px solid rgba(21,115,71,.25)}
+.i1{left:7%;top:28%}.i2{left:31%;top:55%}.i3{right:28%;top:30%}.i4{right:7%;bottom:11%}
+.path{
+  position:absolute;border-top:4px dashed rgba(91,65,35,.5);height:2px;transform-origin:left center
+}
+.p1{left:18%;top:42%;width:190px;transform:rotate(23deg)}
+.p2{left:42%;top:65%;width:220px;transform:rotate(-37deg)}
+.p3{left:63%;top:43%;width:220px;transform:rotate(31deg)}
+.legend{
+  margin-top:18px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:18px
+}
+.legend h2{margin:0 0 12px;font-size:20px}
+.words{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.word{
+  border:1px solid #ddd;border-radius:14px;padding:12px;background:#fffdf6;
+  display:flex;justify-content:space-between;align-items:center;gap:8px
+}
+.word strong{font-size:17px}.word span{color:#64748b;font-size:13px}
+.sound{border:0;border-radius:10px;background:var(--dark);color:#fff;padding:8px 10px;font-weight:800}
+.panel{
+  margin-top:18px;background:white;border:2px solid var(--line);border-radius:20px;padding:20px;
+  display:none
+}
+.panel.show{display:block}
+.question{text-align:center}
+.question small{color:#64748b;font-weight:800}
+.question h2{font-size:28px;margin:9px 0}
+.question p{font-size:17px;color:#475569}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.option{
+  border:2px solid #d8d8d8;background:#fff;border-radius:14px;padding:15px;font-weight:900;font-size:16px
+}
+.option:hover{border-color:#14213d}
+.feedback{
+  min-height:28px;text-align:center;font-weight:900;margin-top:14px
+}
+.next{
+  display:none;margin:12px auto 0;border:0;border-radius:12px;background:var(--dark);color:#fff;
+  padding:12px 18px;font-weight:900
+}
+.treasure{
+  display:none;margin-top:18px;text-align:center;background:#fff8d8;border:3px solid #c98b00;border-radius:22px;padding:25px
+}
+.treasure.show{display:block}
+.treasure h2{font-size:30px;margin:0 0 8px}
+.reset{border:0;background:#fff;border:1px solid #bbb;border-radius:10px;padding:9px 12px;font-weight:800}
+@media(max-width:700px){
+  header{align-items:flex-start;flex-direction:column}.stats{justify-content:flex-start}
+  .map{min-height:650px}
+  .island{width:112px;height:112px;font-size:13px}
+  .i1{left:6%;top:25%}.i2{left:8%;top:58%}.i3{right:7%;top:38%}.i4{right:8%;bottom:6%}
+  .path{display:none}
+  .words{grid-template-columns:1fr}
+  .options{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <h1>UASA Year 1 English Vocabulary · Unit 1</h1>
+    <p>Treasure Hunt · Greetings 问候词汇</p>
+  </div>
+  <div class="stats">
+    <div class="stat">金币：<span id="coins">0</span></div>
+    <div class="stat">生命：<span id="hearts">♥♥♥</span></div>
+    <div class="stat">宝箱：<span id="progress">0/4</span></div>
+    <button class="reset" onclick="resetGame()">重新开始</button>
+  </div>
+</header>
+
+<section class="map">
+  <div class="route"></div>
+  <div class="title-card"><b>寻找失落的英文宝藏</b><span>完成一个岛，解锁下一个岛</span></div>
+  <div class="path p1"></div><div class="path p2"></div><div class="path p3"></div>
+  <button class="island i1" id="island1" onclick="openStage(1)">岛 1<br>Hello Beach<br>问候海滩</button>
+  <button class="island i2 locked" id="island2" onclick="openStage(2)">岛 2<br>Magic Cave<br>礼貌洞穴</button>
+  <button class="island i3 locked" id="island3" onclick="openStage(3)">岛 3<br>Sound Jungle<br>听音森林</button>
+  <button class="island i4 locked" id="island4" onclick="openStage(4)">岛 4<br>Golden Chest<br>终极宝箱</button>
+</section>
+
+<section class="legend">
+  <h2>Unit 1 核心词汇</h2>
+  <div class="words">
+    <div class="word"><div><strong>hello</strong><br><span>你好</span></div><button class="sound" onclick="speak('hello')">发音</button></div>
+    <div class="word"><div><strong>hi</strong><br><span>嗨 / 你好</span></div><button class="sound" onclick="speak('hi')">发音</button></div>
+    <div class="word"><div><strong>goodbye</strong><br><span>再见</span></div><button class="sound" onclick="speak('goodbye')">发音</button></div>
+    <div class="word"><div><strong>please</strong><br><span>请</span></div><button class="sound" onclick="speak('please')">发音</button></div>
+    <div class="word"><div><strong>thank you</strong><br><span>谢谢你</span></div><button class="sound" onclick="speak('thank you')">发音</button></div>
+    <div class="word"><div><strong>sorry</strong><br><span>对不起</span></div><button class="sound" onclick="speak('sorry')">发音</button></div>
+  </div>
+</section>
+
+<section class="panel" id="panel">
+  <div class="question">
+    <small id="stageLabel"></small>
+    <h2 id="questionTitle"></h2>
+    <p id="questionText"></p>
+    <button class="sound" id="listenBtn" style="display:none;margin:auto" onclick="playCurrentSound()">播放英文</button>
+  </div>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback"></div>
+  <button class="next" id="nextBtn" onclick="nextQuestion()">下一题</button>
+</section>
+
+<section class="treasure" id="treasure">
+  <h2>宝藏找到了！</h2>
+  <p>你完成了 Unit 1 Greetings Treasure Hunt。</p>
+  <p><strong>Final Coins: <span id="finalCoins"></span></strong></p>
+  <p>你已经学习：hello, hi, goodbye, please, thank you, sorry。</p>
+  <button class="sound" onclick="resetGame()">再玩一次</button>
+</section>
+</div>
+
+<script>
+const stages = {
+  1:[
+    {q:"“你好”是哪一个英文？",a:"hello",o:["hello","sorry","goodbye","please"]},
+    {q:"看到朋友时，可以说什么？",a:"hi",o:["thank you","hi","sorry","goodbye"]},
+    {q:"离开学校时应该说：",a:"goodbye",o:["please","hello","goodbye","thank you"]}
+  ],
+  2:[
+    {q:"想请别人帮忙，要说：",a:"please",o:["please","hi","goodbye","sorry"]},
+    {q:"别人送你礼物，你应该说：",a:"thank you",o:["hello","sorry","thank you","goodbye"]},
+    {q:"不小心撞到别人，要说：",a:"sorry",o:["please","sorry","hi","hello"]}
+  ],
+  3:[
+    {q:"听发音，选出正确单词。",a:"hello",sound:"hello",o:["goodbye","hello","sorry","please"]},
+    {q:"听发音，选出正确单词。",a:"thank you",sound:"thank you",o:["hi","please","thank you","sorry"]},
+    {q:"听发音，选出正确单词。",a:"goodbye",sound:"goodbye",o:["hello","goodbye","please","thank you"]}
+  ],
+  4:[
+    {q:"Teacher: Good morning! 你可以回答：",a:"hello",o:["hello","goodbye","sorry","please"]},
+    {q:"You want a pencil. 你应该加上：",a:"please",o:["sorry","please","goodbye","hi"]},
+    {q:"Your friend helps you. 你说：",a:"thank you",o:["hi","sorry","thank you","goodbye"]},
+    {q:"You step on a friend's foot. 你说：",a:"sorry",o:["please","hello","sorry","thank you"]}
+  ]
+};
+
+let unlocked=1, completed=0, coins=0, hearts=3;
+let currentStage=0, currentIndex=0, answered=false, currentQuestion=null;
+
+function speak(text){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="en-GB"; u.rate=.78; u.pitch=1;
+  speechSynthesis.speak(u);
+}
+function playCurrentSound(){
+  if(currentQuestion && currentQuestion.sound) speak(currentQuestion.sound);
+}
+function openStage(n){
+  if(n>unlocked || hearts<=0)return;
+  currentStage=n; currentIndex=0;
+  document.getElementById("panel").classList.add("show");
+  document.getElementById("treasure").classList.remove("show");
+  renderQuestion();
+  document.getElementById("panel").scrollIntoView({behavior:"smooth"});
+}
+function renderQuestion(){
+  answered=false;
+  currentQuestion=stages[currentStage][currentIndex];
+  document.getElementById("stageLabel").textContent=`岛 ${currentStage} · 第 ${currentIndex+1}/${stages[currentStage].length} 题`;
+  document.getElementById("questionTitle").textContent=currentStage===3?"Listening Challenge":"Vocabulary Challenge";
+  document.getElementById("questionText").textContent=currentQuestion.q;
+  document.getElementById("feedback").textContent="";
+  document.getElementById("nextBtn").style.display="none";
+  const lb=document.getElementById("listenBtn");
+  lb.style.display=currentQuestion.sound?"block":"none";
+  document.getElementById("options").innerHTML=currentQuestion.o.map(x=>
+    `<button class="option" onclick="answer('${x.replace(/'/g,"\\'")}',this)">${x}</button>`
+  ).join("");
+  if(currentQuestion.sound) setTimeout(()=>speak(currentQuestion.sound),350);
+}
+function answer(choice,btn){
+  if(answered)return;
+  answered=true;
+  document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+  const fb=document.getElementById("feedback");
+  if(choice===currentQuestion.a){
+    coins+=10; btn.style.borderColor="#157347";btn.style.background="#ecfdf3";
+    fb.style.color="#157347";fb.textContent="答对！+10 金币";
+    speak(currentQuestion.a);
+  }else{
+    hearts--; btn.style.borderColor="#b42318";btn.style.background="#fff1f0";
+    fb.style.color="#b42318";fb.textContent=`答错。正确答案：${currentQuestion.a}`;
+    const correct=[...document.querySelectorAll(".option")].find(b=>b.textContent===currentQuestion.a);
+    if(correct){correct.style.borderColor="#157347";correct.style.background="#ecfdf3";}
+    speak(currentQuestion.a);
+  }
+  updateStats();
+  if(hearts<=0){
+    fb.textContent+=" · 生命用完，请重新开始。";
+    return;
+  }
+  document.getElementById("nextBtn").style.display="block";
+}
+function nextQuestion(){
+  currentIndex++;
+  if(currentIndex<stages[currentStage].length){renderQuestion();return;}
+  finishStage();
+}
+function finishStage(){
+  completed=Math.max(completed,currentStage);
+  document.getElementById("island"+currentStage).classList.add("done");
+  if(currentStage<4){
+    unlocked=Math.max(unlocked,currentStage+1);
+    document.getElementById("island"+(currentStage+1)).classList.remove("locked");
+    document.getElementById("feedback").style.color="#157347";
+    document.getElementById("feedback").textContent=`岛 ${currentStage} 完成！下一个岛已解锁。`;
+    document.getElementById("nextBtn").style.display="none";
+  }else{
+    document.getElementById("panel").classList.remove("show");
+    document.getElementById("finalCoins").textContent=coins;
+    document.getElementById("treasure").classList.add("show");
+    document.getElementById("treasure").scrollIntoView({behavior:"smooth"});
+  }
+  updateStats();
+}
+function updateStats(){
+  document.getElementById("coins").textContent=coins;
+  document.getElementById("hearts").textContent="♥".repeat(Math.max(0,hearts))+"♡".repeat(Math.max(0,3-hearts));
+  document.getElementById("progress").textContent=completed+"/4";
+}
+function resetGame(){
+  unlocked=1;completed=0;coins=0;hearts=3;currentStage=0;currentIndex=0;
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById("island"+i);
+    el.classList.remove("done");
+    if(i>1)el.classList.add("locked"); else el.classList.remove("locked");
+  }
+  document.getElementById("panel").classList.remove("show");
+  document.getElementById("treasure").classList.remove("show");
+  updateStats();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+updateStats();
+</script>
+</body>
+</html>
